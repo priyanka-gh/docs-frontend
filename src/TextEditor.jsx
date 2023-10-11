@@ -21,10 +21,12 @@ export default function TextEditor() {
   const { id: documentId } = useParams()
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
+  const [loc, setLoc] = useState("")
 
   useEffect(() => {
     const s = io("https://googledocs-24lj.onrender.com/")
     setSocket(s)
+    setLoc(window.location.href)
 
     return () => {
       s.disconnect()
@@ -84,7 +86,7 @@ export default function TextEditor() {
   const wrapperRef = useCallback(wrapper => {
     if (wrapper == null) return
 
-    wrapper.innerHTML = ""
+    wrapper.innerHTML = `${loc}`
     const editor = document.createElement("div")
     wrapper.append(editor)
     const q = new Quill(editor, {
